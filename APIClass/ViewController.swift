@@ -7,14 +7,24 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        showActivityIndicator()
+        
+        APIRequest(apiName: .RandomDog, method: .get, encodingType: .queryString).request(model: MDLDog.self) { [weak self] (request, dataModel) in
+            
+            hideActivityIndicator()
+            guard let _ = self else { return }
+            print(dataModel?.message ?? "N/A")
+            //guard let arrPost = dataModel?.data else { return }
+            print(request.fullResponse.toJson())
+        }
+        
     }
-
-
 }
 
